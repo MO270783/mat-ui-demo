@@ -1,0 +1,22 @@
+How to handle exceptions in Spring boot.
+
+Points to note:
+1. There is a default error controller called BasicErrorController which has two controller methods for html and json error handling
+If the error/exceptions is unhandled at the top (by controller advices), then it comes here and depending on request accept type (html or json),
+the error controller calls it's respective methods.
+If it's HTML, a white label error page is sent, and if JSON, a json message(ErrorAttribute) is sent.
+
+2. There is a default error attributes (DefaultErrorAttributes) that is sent back to the client. Basic set of values.
+
+3. We have 2 things to worry here, response status and response body
+
+4. We should create a common error class to create error objects.
+
+There are two things to handle here:
+1. Custom exceptions: Extend a class REsponseEntityHandler and use exception handler annotations
+2. Default spring responses: Create a custom error attribute class and custom controller.
+
+Below two sites give you a good idea of what needs to be done.
+https://thepracticaldeveloper.com/2019/09/09/custom-error-handling-rest-controllers-spring-boot/
+https://www.toptal.com/java/spring-boot-rest-api-error-handling
+

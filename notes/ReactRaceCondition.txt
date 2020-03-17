@@ -1,0 +1,22 @@
+Race conditions in react fetch and component updates.
+
+A race condition can occur when multiple promises race to update a single view, or when the result is returned from a fetch but the
+component is already mounted.
+
+Very easy to reproduce the issue:
+1. Create a component and as soon as it mounts go for a fetch value, and once we have the value set it as state.
+Straight simple straight forward.
+Mount -> fetch -> setValue -> re-render -> all good.
+
+2. What happens if by the time fetch returns a value, the component is already unmounted.
+
+We have 3 options.
+1. Ignore those fetch return values.
+2. Cancel network request. (Good idea)
+3. Both (cancel and ignore) (best idea).
+
+All these options require useEffect clean up option.
+
+Below two articles explain the concept beautifully and also it's solution
+https://medium.com/hackernoon/avoiding-race-conditions-when-fetching-data-with-react-hooks-220d6fd0f663
+https://sebastienlorber.com/Handling-API-request-race-conditions-in-React

@@ -1,0 +1,97 @@
+Stale closures in JS
+
+1. When a closure is created it also maintains the track of it's lexical scope along with its own scope.
+Example:
+
+a.
+function func1(firstName) {
+    return function() {
+        console.log(firstName + " Khandelwal");
+    }
+}
+let func2 = func1("Mohit");
+func2(); //Mohit Khandelwal
+
+b. It actually maintains a track of the variables
+let obj1 = {
+    prop1: "value"
+}
+function func1() {
+    let value = obj1.prop1;
+    return function() {
+        console.log("object value " + value);
+    }
+}
+let newFunc = func1();
+newFunc();
+//object value value
+
+obj1.prop1 = "newValue"
+newFunc() ???
+//object value value (Does not change), because newFunc was assigned function reference + all lexical scope variables that at the time
+of closure creation. Therefore when newFunc() is invoked the second time, it referred to the value which was at the time of
+closure creation.
+
+Also remember the below lines:
+let obj1 = {
+    prop1: "value"
+}
+let testVar = obj1.prop1 //value
+
+obj1.prop1 = "newValue"
+
+testVar //value. Still the same. straightforward reference assignment concept.
+
+
+So what is happening in react hooks: (exactly the same as above)
+
+function useEffect(callBack) {
+    setInterval(() => callBack(), 2000);
+}
+
+let obj = {
+    prop: "value"
+}
+
+function testFunction() {
+    const { val } = obj.prop;
+    useEffect(() => console.log(val));
+}
+
+//Starts logging "value"
+obj.prop = "value1"
+
+//Keeps on logging "value"
+Closure is created when useEffect runs and therefore it encapsulates the variable at the time of closure creation.
+
+See the code below
+
+function App() {
+  const [count, setCount] = useState(0);
+  //creates two new variables everytime useState is called. Hence we assume it is the same as in useEffect.
+
+  useEffect(() => {
+    setInterval(() => console.log(count), 1000);
+  }, []);
+
+  return (
+    <div>
+      <h2>{count}</h2>
+      <button
+        type="button"
+        onClick={() => {
+          setCount(prevCount => prevCount + 1);
+        }}
+      >
+        Increment
+      </button>
+    </div>
+  );
+}
+
+1. In first render, count = 0. useEffect runs only when component mounts or dismounts. In this case, when component mounts,
+closure is created with count = 0.
+2. When clicked, component re-renders with count = 1, but closure is not created again.
+3. useState always returns two new variables (as array destructuring). Hence first render count is different from second render count.
+
+Therefore, technically, if you are using state inside any event handlers, effects etc. please be care of stale values. 

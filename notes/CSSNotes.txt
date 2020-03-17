@@ -1,0 +1,12 @@
+color: determines the text color
+font-family - Family of fonts
+font-size: Size of the font (normally set at the body level and then we use rem)
+font-style: normal/italic/oblique
+font-weight: normal/bold etc
+text-transform: none, uppercase, lowercase, capitalize
+text-decoration: none, underline, overline
+
+text-align: left right justify
+line-height: 1.5- 2
+letter-spacing: spaces between letters
+word-spacing: spaces between words
