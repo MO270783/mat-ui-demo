@@ -12,6 +12,8 @@ import { SimpleContainer } from './components/SimpleContainer';
 import { SpacingGrid } from './components/gridDemo/SpacingGrid';
 import { FullWidthGrid } from './components/gridDemo/FullWidthGrid';
 import { AsyncDemoComponent } from './components/AsyncDemo';
+import { ListDemo } from './components/ListDemo';
+import { NestedListDemo, FileListItem, GrepDisplay, HostNameItem } from './components/NestedListDemo';
 
 const useStyles = makeStyles({
   hello: {
@@ -56,6 +58,21 @@ const useStyles = makeStyles({
 //   );
 // }
 
+const res = [
+  {
+    fileName: 'file1',
+    grepResult: ['line 1 matching', 'line2 matching'],
+  },
+  {
+    fileName: 'file2',
+    grepResult: ['line 1 matching', 'line2 matching'],
+  },
+  {
+    fileName: 'file3',
+    grepResult: ['line 1 matching', 'line2 matching'],
+  },
+];
+
 function App() {
   // return <SelectDemo />;
   // return <DateSelector />;
@@ -63,7 +80,9 @@ function App() {
   // return <TextFieldDemo />;
   return (
     <>
-      <AsyncDemoComponent />
+      <NestedListDemo />
+      {/* <HostNameItem hostName="hostName" result={res} /> */}
+      {/* <AsyncDemoComponent /> */}
       {/* <CssBaseline />
       <Form /> */}
     </>
